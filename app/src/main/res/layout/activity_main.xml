@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ppl"
+    tools:context="com.example.ando.labs.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="395dp"
+        android:layout_height="643dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="4dp">
+
+        <Button
+            android:id="@+id/play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Jouer" />
+
+        <Button
+            android:id="@+id/stat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/play"
+            android:layout_alignRight="@+id/play"
+            android:layout_below="@+id/play"
+            android:layout_marginTop="45dp"
+            android:text="Score" />
+
+        <Button
+            android:id="@+id/quit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/stat"
+            android:layout_alignStart="@+id/stat"
+            android:layout_below="@+id/stat"
+            android:layout_marginTop="36dp"
+            android:text="Sortir" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
