@@ -28,16 +28,16 @@ public class MyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //initialisation
         mView = new PanelDeJeu(this);
         setContentView(mView);
 
         mEngine = new MoteurDeJeu(this);
-
         Boule b = new Boule();
         mView.setBoule(b);
         mEngine.setBoule(b);
 
-        List<Bloc> mList = mEngine.pièges();
+        List<Bloc> mList = mEngine.pieges();
         mView.setBlocks(mList);
     }
 

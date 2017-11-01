@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         jouer.setOnClickListener(jouerListener);
         score.setOnClickListener(scoreListener);
         quit.setOnClickListener(quitListener);
+
+
     }
 
 }

@@ -17,6 +17,8 @@ public class Boule {
     private static final float COMPENSATEUR = 8.0f;
     // Utilisé pour compenser les rebonds
     private static final float REBOND = 1.3f; // reglage difficulté (valeur bas, vitesse élevé)
+    public int xB;
+    public int yB;
     // Couleur de la boule
     private int mCouleur = Color.RED;
     // Le rectangle qui correspond à la position de départ de la boule
@@ -32,9 +34,11 @@ public class Boule {
     // Vitesse sur l'axe y
     private float mSpeedY = 0;
     // Taille de l'écran en hauteur
-    private int mHeight = -1;
+    private int mHeight = 0;
     // Taille de l'écran en largeur
-    private int mWidth = -1;
+    private int mWidth = 0;
+
+
 
     public Boule() {
         mRectangle = new RectF();
@@ -129,8 +133,11 @@ public class Boule {
         setPosX(mX + mSpeedY);
         setPosY(mY + mSpeedX);
 
+        float xB = mX + RAYON;
+        float yB = mY + RAYON;
+
         // Met à jour les coordonnées du rectangle de collision
-        mRectangle.set(mX - RAYON, mY - RAYON, mX + RAYON, mY + RAYON);
+        mRectangle.set(mX - RAYON, mY - RAYON, xB, yB);
 
         return mRectangle;
     }

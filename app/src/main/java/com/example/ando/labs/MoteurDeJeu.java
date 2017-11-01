@@ -20,9 +20,13 @@ public class MoteurDeJeu {
 
     public double xpos;
     public double ypos;
+    public Bloc t1;
+    public Bloc tn;
+    public int x;
+    public int y;
     private double vie = 5;
     private Boule mBoule = null;
-    // Le labyrinthe
+    // les blocks
     private List<Bloc> mBlocks = null;
     private MyActivity mActivity = null;
     SensorEventListener mSensorEventListener = new SensorEventListener() {
@@ -36,7 +40,7 @@ public class MoteurDeJeu {
                 // On met à jour les coordonnées de la boule
                 RectF hitBox = mBoule.putXAndY(x, y);
 
-                // Pour tous les blocs du labyrinthe
+                // Pour tous les blocs
                 for (Bloc block : mBlocks) {
                     // On crée un nouveau rectangle pour ne pas modifier celui du bloc
                     RectF inter = new RectF(block.getRectangle());
@@ -44,10 +48,9 @@ public class MoteurDeJeu {
                         // On agit différement en fonction du type de bloc
                         switch (block.getType()) {
                             case TROU:
-                                //vie--;
-                                //if (vie==0){
+
                                 mActivity.showDialog(MyActivity.DEFEAT_DIALOG);
-                                // }
+
                                 xpos = mBoule.getX();
                                 ypos = mBoule.getY();
 
@@ -59,6 +62,10 @@ public class MoteurDeJeu {
                             case TARGET:
 
                                 mActivity.showDialog(MyActivity.VICTORY_DIALOG);
+//                                mBlocks.remove(t1);
+//                                t1 = new Bloc(Type.TARGET,15,10);
+//                                mBlocks.add(tn);
+
 
                                 break;
                         }
@@ -82,6 +89,13 @@ public class MoteurDeJeu {
         mAccelerometre = mManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
+    public Bloc getBloc() {
+        return (Bloc) mBlocks;
+    }
+
+    public void setBloc(Bloc pBloc) {
+        this.mBlocks = (List<Bloc>) pBloc;
+    }
     public Boule getBoule() {
 
         return mBoule;
@@ -95,6 +109,8 @@ public class MoteurDeJeu {
     // Remet à zéro l'emplacement de la boule
     public void reset() {
         mBoule.reset();
+        mBlocks.removeAll(mBlocks);
+
     }
 
     // Arrête le capteur
@@ -107,31 +123,53 @@ public class MoteurDeJeu {
         mManager.registerListener(mSensorEventListener, mAccelerometre, SensorManager.SENSOR_DELAY_GAME);
     }
 
-    // Construit le labyrinthe
-    public List<Bloc> pièges() {
+    // Construit les pieges
+    public List<Bloc> pieges() {
         mBlocks = new ArrayList<Bloc>();
 
         // xmax== 15 ymax == 8
+        x = 1 + (int) (Math.random() * 29);
+        y = 1 + (int) (Math.random() * 15);
 
-        mBlocks.add(new Bloc(Type.TROU, 3, 2));
-        mBlocks.add(new Bloc(Type.TROU, 6, 10));
-        mBlocks.add(new Bloc(Type.TROU, 7, 14));
-        mBlocks.add(new Bloc(Type.TROU, 10, 0));
-        mBlocks.add(new Bloc(Type.TROU, 13, 3));
-        mBlocks.add(new Bloc(Type.TROU, 13, 16));
-        mBlocks.add(new Bloc(Type.TROU, 19, 6));
-        mBlocks.add(new Bloc(Type.TROU, 22, 4));
-        mBlocks.add(new Bloc(Type.TROU, 30, 8));
+        mBlocks.add(new Bloc(Type.TROU, x, y));
+        x = 1 + (int) (Math.random() * 29);
+        y = 1 + (int) (Math.random() * 15);
+        mBlocks.add(new Bloc(Type.TROU, x, y));
+        x = 1 + (int) (Math.random() * 29);
+        y = 1 + (int) (Math.random() * 15);
+        mBlocks.add(new Bloc(Type.TROU, x, y));
+        x = 1 + (int) (Math.random() * 29);
+        y = 1 + (int) (Math.random() * 15);
+        mBlocks.add(new Bloc(Type.TROU, x, y));
+        x = 1 + (int) (Math.random() * 29);
+        y = 1 + (int) (Math.random() * 15);
+        mBlocks.add(new Bloc(Type.TROU, x, y));
+        x = 1 + (int) (Math.random() * 29);
+        y = 1 + (int) (Math.random() * 15);
+        mBlocks.add(new Bloc(Type.TROU, x, y));
+        x = 1 + (int) (Math.random() * 29);
+        y = 1 + (int) (Math.random() * 15);
+        mBlocks.add(new Bloc(Type.TROU, x, y));
+        x = 1 + (int) (Math.random() * 29);
+        y = 1 + (int) (Math.random() * 15);
+        mBlocks.add(new Bloc(Type.TROU, x, y));
+        x = 1 + (int) (Math.random() * 29);
+        y = 1 + (int) (Math.random() * 15);
+        mBlocks.add(new Bloc(Type.TROU, x, y));
+        x = 1 + (int) (Math.random() * 29);
+        y = 1 + (int) (Math.random() * 15);
 
-        int x = 25 + (int) (Math.random() * (-1 - 75));
-        int y = 100 + (int) (Math.random() * (-1 - 350));
+        Bloc b = new Bloc(Type.DEPART, x, y);
 
-
-        Bloc b = new Bloc(Type.DEPART, 23, 2);
         mBoule.setInitialRectangle(new RectF(b.getRectangle()));
         mBlocks.add(b);
+        x = 1 + (int) (Math.random() * 29);
+        y = 1 + (int) (Math.random() * 15);
 
-        mBlocks.add(new Bloc(Type.TARGET, 8, 11));
+        t1 = new Bloc(Type.TARGET, x, y);
+        mBlocks.add(t1);
+
+
 
         return mBlocks;
     }
