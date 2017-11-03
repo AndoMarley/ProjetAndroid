@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ppl"
+    android:background="@drawable/oreo"
     tools:context="com.example.ando.labs.MainActivity">
 
     <RelativeLayout
@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:alpha="0.25"
             android:text="Jouer" />
 
         <Button
@@ -29,6 +30,7 @@
             android:layout_alignRight="@+id/play"
             android:layout_below="@+id/play"
             android:layout_marginTop="45dp"
+            android:alpha="0.50"
             android:text="Score" />
 
         <Button
@@ -39,6 +41,7 @@
             android:layout_alignStart="@+id/stat"
             android:layout_below="@+id/stat"
             android:layout_marginTop="36dp"
+            android:alpha="0.50"
             android:text="Sortir" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -20,15 +20,15 @@ public class Boule {
     public int xB;
     public int yB;
     // Couleur de la boule
-    private int mCouleur = Color.RED;
+    private int mCouleur = Color.BLUE;
     // Le rectangle qui correspond à la position de départ de la boule
     private RectF mInitialRectangle = null;
     // Le rectangle de collision
     private RectF mRectangle = null;
     // Coordonnées en x
-    private float mX;
+    private float mX = 1;
     // Coordonnées en y
-    private float mY;
+    private float mY = 1;
     // Vitesse sur l'axe x
     private float mSpeedX = 0;
     // Vitesse sur l'axe y
@@ -51,8 +51,8 @@ public class Boule {
     // A partir du rectangle initial on détermine la position de la boule
     public void setInitialRectangle(RectF pInitialRectangle) {
         this.mInitialRectangle = pInitialRectangle;
-        this.mX = pInitialRectangle.left + Cote;
-        this.mY = pInitialRectangle.top + Cote;
+        // this.mX = pInitialRectangle.left + Cote;
+        // this.mY = pInitialRectangle.top + Cote;
     }
 
     public float getX() {
@@ -143,10 +143,13 @@ public class Boule {
     }
 
     // Remet la boule à sa position de départ
-    public void reset() {
+    public void reposit() {
         mSpeedX = 0;
         mSpeedY = 0;
-        this.mX = mWidth / 2;//mInitialRectangle.left + RAYON;
-        this.mY = mHeight / 2;//mInitialRectangle.top + RAYON;
+
+        int xnx = (int) (Math.random() * 6);
+        int yny = (int) (Math.random() * 6);
+        this.mX = xnx;//mWidth / 2;//mInitialRectangle.left + RAYON;
+        this.mY = yny; //mHeight / 2;//mInitialRectangle.top + RAYON;
     }
 }

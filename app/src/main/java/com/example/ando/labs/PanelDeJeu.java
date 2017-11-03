@@ -4,7 +4,10 @@ package com.example.ando.labs;
  * Created by Ando on 12/10/2017.
  */
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,10 +24,14 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
     SurfaceHolder mSurfaceHolder;
     DrawingThread mThread;
     Paint mPaint;
+    Bitmap bcg;
+    Bitmap trx;
     private List<Bloc> mBlocks = null;
 
     public PanelDeJeu(Context pContext) {
         super(pContext);
+        bcg = BitmapFactory.decodeResource(getResources(), R.drawable.ga);
+        trx = BitmapFactory.decodeResource(getResources(), R.drawable.trou);
         mSurfaceHolder = getHolder();
         mSurfaceHolder.addCallback(this);
         mThread = new DrawingThread();
@@ -36,6 +43,7 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public Boule getBoule() {
+
         return mBoule;
     }
 
@@ -54,20 +62,25 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     protected void onDraw(Canvas pCanvas) {
         // Dessiner le fond de l'écran en premier
-        pCanvas.drawColor(Color.WHITE);
+        //pCanvas.drawColor(Color.WHITE);
+        pCanvas.drawBitmap(bcg, 0, 0, null);
+
+
         if (mBlocks != null) {
             // Dessiner tous les blocs du labyrinthe
             for (Bloc b : mBlocks) {
                 switch (b.getType()) {
                     case DEPART:
-                        mPaint.setColor(Color.GRAY);
+                        mPaint.setColor(Color.RED);
                         break;
                     case TARGET:
-                        mPaint.setColor(Color.GREEN);
-
+                        mPaint.setColor(Color.argb(100, 161, 228, 221));
+//                        Canvas c = getHolder().lockCanvas();
+//                        c.drawBitmap(trx,0,0,null);
+//                        getHolder().unlockCanvasAndPost(c);
                         break;
                     case TROU:
-                        mPaint.setColor(Color.BLACK);
+                        mPaint.setColor(Color.RED);
                         break;
                 }
                 pCanvas.drawRect(b.getRectangle(), mPaint);
@@ -114,6 +127,7 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
     private class DrawingThread extends Thread {
         boolean keepDrawing = true;
 
+        @SuppressLint("WrongCall")
         @Override
         public void run() {
             Canvas canvas;

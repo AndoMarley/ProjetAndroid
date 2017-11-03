@@ -24,11 +24,14 @@ public class MoteurDeJeu {
     public Bloc tn;
     public int x;
     public int y;
+    public int score = 0;
     private double vie = 5;
     private Boule mBoule = null;
     // les blocks
     private List<Bloc> mBlocks = null;
     private MyActivity mActivity = null;
+    private SensorManager mManager = null;
+    private Sensor mAccelerometre = null;
     SensorEventListener mSensorEventListener = new SensorEventListener() {
 
         @Override
@@ -40,7 +43,7 @@ public class MoteurDeJeu {
                 // On met à jour les coordonnées de la boule
                 RectF hitBox = mBoule.putXAndY(x, y);
 
-                // Pour tous les blocs
+                // Pour tous les blocs, iteration de la collection
                 for (Bloc block : mBlocks) {
                     // On crée un nouveau rectangle pour ne pas modifier celui du bloc
                     RectF inter = new RectF(block.getRectangle());
@@ -51,20 +54,23 @@ public class MoteurDeJeu {
 
                                 mActivity.showDialog(MyActivity.DEFEAT_DIALOG);
 
-                                xpos = mBoule.getX();
-                                ypos = mBoule.getY();
+
+//                                xpos = mBoule.getX();
+//                                ypos = mBoule.getY();
 
                                 break;
 
                             case DEPART:
+                                mActivity.showDialog(MyActivity.DEFEAT_DIALOG);
                                 break;
 
                             case TARGET:
 
-                                mActivity.showDialog(MyActivity.VICTORY_DIALOG);
+                                // mActivity.showDialog(MyActivity.VICTORY_DIALOG);
 //                                mBlocks.remove(t1);
 //                                t1 = new Bloc(Type.TARGET,15,10);
 //                                mBlocks.add(tn);
+                                mActivity.coal();
 
 
                                 break;
@@ -80,8 +86,6 @@ public class MoteurDeJeu {
 
         }
     };
-    private SensorManager mManager = null;
-    private Sensor mAccelerometre = null;
 
     public MoteurDeJeu(MyActivity pView) {
         mActivity = pView;
@@ -108,8 +112,12 @@ public class MoteurDeJeu {
 
     // Remet à zéro l'emplacement de la boule
     public void reset() {
-        mBoule.reset();
-        mBlocks.removeAll(mBlocks);
+        mBoule.reposit();
+
+    }
+
+    public void breset() {
+        //mtarget.reposit
 
     }
 
@@ -168,8 +176,6 @@ public class MoteurDeJeu {
 
         t1 = new Bloc(Type.TARGET, x, y);
         mBlocks.add(t1);
-
-
 
         return mBlocks;
     }

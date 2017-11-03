@@ -7,11 +7,11 @@ package com.example.ando.labs;
 import android.graphics.RectF;
 
 public class Bloc {
-    private float SIZE = Boule.RAYON * 2;
+    public Type typeBloc = null;
+    public RectF mRectangle = null;
+    public int ipX;
+    public int ipY;
     private float COTE = Boule.Cote * 2;
-    private Type typeBloc = null;
-    private RectF mRectangle = null;
-
     public Bloc(Type pType, int pX, int pY) {
         this.typeBloc = pType;
         this.mRectangle = new RectF(pX * COTE, pY * COTE, (pX + 1) * COTE, (pY + 1) * COTE);
@@ -27,5 +27,7 @@ public class Bloc {
     }
 
     enum Type {TROU, DEPART, TARGET}
+
+
 }
 

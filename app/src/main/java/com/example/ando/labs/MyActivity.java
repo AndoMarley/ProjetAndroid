@@ -1,7 +1,7 @@
 package com.example.ando.labs;
 
 /**
- * Created by Ando on 12/10/2017.
+ * Created by Ando Randriamaro and Brice Maroson on 12/10/2017.
  */
 
 import android.annotation.SuppressLint;
@@ -10,6 +10,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import java.util.List;
 
@@ -18,21 +20,24 @@ public class MyActivity extends Activity {
     public static final int VICTORY_DIALOG = 0;
     // Identifiant de la boîte de dialogue de défaite
     public static final int DEFEAT_DIALOG = 1;
-
+    // Le moteur physique du jeu
+    public MoteurDeJeu mEngine = null;
+    public MoteurDeJeu bEngine = null;
     // Le moteur graphique du jeu
     private PanelDeJeu mView = null;
-    // Le moteur physique du jeu
-    private MoteurDeJeu mEngine = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //initialisation
         mView = new PanelDeJeu(this);
         setContentView(mView);
 
         mEngine = new MoteurDeJeu(this);
+//        Bloc but = new Bloc(Bloc.Type.TARGET,0,0);
         Boule b = new Boule();
         mView.setBoule(b);
         mEngine.setBoule(b);
@@ -81,6 +86,12 @@ public class MyActivity extends Activity {
     public void onPrepareDialog(int id, Dialog box) {
         // A chaque fois qu'une boîte de dialogue est lancée, on arrête le moteur physique
         mEngine.stop();
+    }
+
+    public void coal() {
+        mEngine.stop();
+        mEngine.reset();
+        mEngine.resume();
     }
 
     private final class CancelOnClickListener implements
