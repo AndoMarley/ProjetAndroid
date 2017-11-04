@@ -37,6 +37,8 @@ public class Boule {
     private int mHeight = 0;
     // Taille de l'écran en largeur
     private int mWidth = 0;
+    private int life = 3;
+    private int score = 0;
 
 
 
@@ -151,5 +153,21 @@ public class Boule {
         int yny = (int) (Math.random() * 6);
         this.mX = xnx;//mWidth / 2;//mInitialRectangle.left + RAYON;
         this.mY = yny; //mHeight / 2;//mInitialRectangle.top + RAYON;
+    }
+
+    public void incrementScore() {
+        score++;
+    }
+
+    public void decrementLife() {
+        life--;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

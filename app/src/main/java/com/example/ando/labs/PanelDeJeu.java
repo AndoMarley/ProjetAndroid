@@ -65,14 +65,17 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
         //pCanvas.drawColor(Color.WHITE);
         pCanvas.drawBitmap(bcg, 0, 0, null);
 
+        Paint paint = new Paint();
+        pCanvas.drawPaint(paint);
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(56);
+        pCanvas.drawText("Score : " + mBoule.getScore(), 50, 45, paint);
+        pCanvas.drawText("Life : " + mBoule.getLife(), 450, 45, paint);
 
         if (mBlocks != null) {
             // Dessiner tous les blocs du labyrinthe
             for (Bloc b : mBlocks) {
                 switch (b.getType()) {
-                    case DEPART:
-                        mPaint.setColor(Color.RED);
-                        break;
                     case TARGET:
                         mPaint.setColor(Color.argb(100, 161, 228, 221));
 //                        Canvas c = getHolder().lockCanvas();

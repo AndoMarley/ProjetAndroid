@@ -26,7 +26,7 @@ public class Bloc {
         return mRectangle;
     }
 
-    enum Type {TROU, DEPART, TARGET}
+    enum Type {TROU, TARGET}
 
 
 }

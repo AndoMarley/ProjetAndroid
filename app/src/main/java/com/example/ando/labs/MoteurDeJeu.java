@@ -20,7 +20,7 @@ public class MoteurDeJeu {
 
     public double xpos;
     public double ypos;
-    public Bloc t1;
+    public Bloc target;
     public Bloc tn;
     public int x;
     public int y;
@@ -51,21 +51,20 @@ public class MoteurDeJeu {
                         // On agit différement en fonction du type de bloc
                         switch (block.getType()) {
                             case TROU:
-
-                                mActivity.showDialog(MyActivity.DEFEAT_DIALOG);
-
+                                if (mBoule.getLife() > 0)
+                                    mBoule.decrementLife();
+                                if (mBoule.getLife() == 0) {
+                                    mActivity.showDialog(MyActivity.DEFEAT_DIALOG);
+                                    mActivity.coal();
+                                }
 
 //                                xpos = mBoule.getX();
 //                                ypos = mBoule.getY();
 
                                 break;
 
-                            case DEPART:
-                                mActivity.showDialog(MyActivity.DEFEAT_DIALOG);
-                                break;
-
                             case TARGET:
-
+                                mBoule.incrementScore();
                                 // mActivity.showDialog(MyActivity.VICTORY_DIALOG);
 //                                mBlocks.remove(t1);
 //                                t1 = new Bloc(Type.TARGET,15,10);
@@ -164,18 +163,11 @@ public class MoteurDeJeu {
         x = 1 + (int) (Math.random() * 29);
         y = 1 + (int) (Math.random() * 15);
         mBlocks.add(new Bloc(Type.TROU, x, y));
+
         x = 1 + (int) (Math.random() * 29);
         y = 1 + (int) (Math.random() * 15);
-
-        Bloc b = new Bloc(Type.DEPART, x, y);
-
-        mBoule.setInitialRectangle(new RectF(b.getRectangle()));
-        mBlocks.add(b);
-        x = 1 + (int) (Math.random() * 29);
-        y = 1 + (int) (Math.random() * 15);
-
-        t1 = new Bloc(Type.TARGET, x, y);
-        mBlocks.add(t1);
+        target = new Bloc(Type.TARGET, x, y);
+        mBlocks.add(target);
 
         return mBlocks;
     }
