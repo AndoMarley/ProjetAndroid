@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/screen"
+    android:background="@drawable/background"
     tools:context="com.example.ando.labs.MainActivity">
 
     <RelativeLayout
@@ -19,9 +19,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="135dp"
-            android:layout_marginStart="135dp"
+            android:layout_marginTop="144dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="144dp"
+            android:layout_marginStart="144dp"
             android:alpha="0.70"
             android:text="Jouer" />
 

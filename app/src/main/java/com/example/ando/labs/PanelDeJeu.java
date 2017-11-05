@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -67,22 +68,46 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
         pCanvas.drawPaint(paint);
 
         paint.setColor(Color.WHITE);
-        paint.setTextSize(56);
+
+        Typeface gameplay = Typeface.createFromAsset(getContext().getAssets(), "fonts/Gameplay.ttf");
+
+        paint.setTextSize(36);
+        paint.setTypeface(gameplay);
         pCanvas.drawText("Score : " + mBoule.getScore(), 50, 45, paint);
-        pCanvas.drawText("Life : " + mBoule.getLife(), 450, 45, paint);
+
+        int life = mBoule.getLife();
+
+        int startLife = pCanvas.getWidth() - 500;
+        int left = startLife + 122;
+        int marginTop = 10;
+        int leftPadding = 0;
+        int leftPaddingStep = 35;
+        int lifeBarWidth = 25;
+        int lifeBarHeight = 45;
+
+        pCanvas.drawText("Life : ", startLife, 45, paint);
+
+        paint.setColor(Color.rgb(3, 186, 131));
+
+        while (life-- > 0) {
+            pCanvas.drawRect(leftPadding + left, marginTop,
+                            leftPadding + left + lifeBarWidth,
+                            marginTop + lifeBarHeight, paint);
+            leftPadding += leftPaddingStep;
+        }
 
         if (mBlocks != null) {
             // Dessiner tous les blocs du labyrinthe
             for (Bloc b : mBlocks) {
                 switch (b.getType()) {
                     case TARGET:
-                        mPaint.setColor(Color.rgb(140, 21, 249));
+                        mPaint.setColor(Color.rgb(147, 6, 35));
 //                        Canvas c = getHolder().lockCanvas();
 //                        c.drawBitmap(trx,0,0,null);
 //                        getHolder().unlockCanvasAndPost(c);
                         break;
                     case TROU:
-                        mPaint.setColor(Color.rgb(255, 0, 133));
+                        mPaint.setColor(Color.rgb(151, 29, 114));
                         break;
                 }
                 pCanvas.drawRect(b.getRectangle(), mPaint);

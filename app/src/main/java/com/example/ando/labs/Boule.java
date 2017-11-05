@@ -20,7 +20,7 @@ public class Boule {
     public int xB;
     public int yB;
     // Couleur de la boule
-    private int mCouleur = Color.rgb(234,221,43);
+    private int mCouleur = Color.rgb(243, 175, 22);
     // Le rectangle qui correspond à la position de départ de la boule
     private RectF mInitialRectangle = null;
     // Le rectangle de collision
