@@ -18,6 +18,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Window;
@@ -45,6 +46,8 @@ public class MyActivity extends Activity {
 
     private MediaPlayer mPlayer = null;
 
+    protected PowerManager.WakeLock mWakeLock;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +70,10 @@ public class MyActivity extends Activity {
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         playSound(R.raw.kung);
+
+        final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, getPackageName());
+        this.mWakeLock.acquire();
     }
 
     @Override
@@ -79,8 +86,14 @@ public class MyActivity extends Activity {
     @SuppressLint("MissingSuperCall")
     @Override
     protected void onPause() {
-        super.onStop();
+        super.onPause();
         mEngine.stop();
+    }
+
+    @Override
+    public void onDestroy() {
+        this.mWakeLock.release();
+        super.onDestroy();
     }
 
     @Override
@@ -127,6 +140,10 @@ public class MyActivity extends Activity {
     protected void onStop() {
         super.onStop();
         saveScore();
+        if (mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.release();
+        }
     }
 
     public MoteurDeJeu getEngine() {

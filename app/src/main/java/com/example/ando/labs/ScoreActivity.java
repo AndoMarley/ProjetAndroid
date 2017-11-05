@@ -3,9 +3,11 @@ package com.example.ando.labs;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.style.BackgroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -38,6 +40,7 @@ public class ScoreActivity extends AppCompatActivity {
 
         ImageButton mapButton = new ImageButton(this);
         mapButton.setImageResource(R.drawable.button_location);
+        mapButton.setBackgroundColor(Color.TRANSPARENT);
 
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
