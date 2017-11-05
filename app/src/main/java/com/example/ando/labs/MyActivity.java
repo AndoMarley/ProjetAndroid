@@ -129,25 +129,31 @@ public class MyActivity extends Activity {
 
     public void saveScore() {
         SharedPreferences settings = getSharedPreferences("SCORE", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("maxScore", "" + mEngine.getBoule().getScore());
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        String score = settings.getString("maxScore", "0");
+
+        if (Integer.parseInt(score) < mEngine.getBoule().getScore()) {
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("maxScore", "" + mEngine.getBoule().getScore());
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            editor.putString("latitude", "" + location.getLatitude());
+            editor.putString("longitude", "" + location.getLongitude());
+
+            editor.commit();
         }
-        Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        editor.putString("latitude", "" + location.getLatitude());
-        editor.putString("longitude", "" + location.getLongitude());
-
-        editor.commit();
     }
 
     private final class CancelOnClickListener implements
