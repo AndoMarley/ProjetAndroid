@@ -16,11 +16,14 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MyActivity extends Activity {
@@ -39,6 +42,8 @@ public class MyActivity extends Activity {
     private double longitude;
 
     private LocationManager mLocationManager;
+
+    private MediaPlayer mPlayer = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,7 @@ public class MyActivity extends Activity {
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
+        playSound(R.raw.kung);
     }
 
     @Override
@@ -172,5 +178,14 @@ public class MyActivity extends Activity {
             pause = false;
             mEngine.resume();
         }
+    }
+
+    private void playSound(int resId) {
+        if(mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.release();
+        }
+        mPlayer = MediaPlayer.create(this, resId);
+        mPlayer.start();
     }
 }
