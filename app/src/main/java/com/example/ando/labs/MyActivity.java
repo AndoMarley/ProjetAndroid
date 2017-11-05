@@ -4,6 +4,7 @@ package com.example.ando.labs;
  * Created by Ando Randriamaro and Brice Maroson on 12/10/2017.
  */
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,7 +12,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -28,6 +34,11 @@ public class MyActivity extends Activity {
     private PanelDeJeu mView = null;
 
     private boolean pause = false;
+
+    private double latitude;
+    private double longitude;
+
+    private LocationManager mLocationManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +58,9 @@ public class MyActivity extends Activity {
 
         List<Bloc> mList = mEngine.getBoardElems();
         mView.setBlocks(mList);
+
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
     }
 
     @Override
@@ -117,6 +131,22 @@ public class MyActivity extends Activity {
         SharedPreferences settings = getSharedPreferences("SCORE", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("maxScore", "" + mEngine.getBoule().getScore());
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        editor.putString("latitude", "" + location.getLatitude());
+        editor.putString("longitude", "" + location.getLongitude());
+
         editor.commit();
     }
 

@@ -1,11 +1,20 @@
 package com.example.ando.labs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class ScoreActivity extends AppCompatActivity {
 
@@ -18,9 +27,31 @@ public class ScoreActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("SCORE", Context.MODE_PRIVATE);
         String score = settings.getString("maxScore", "0");
 
-        setContentView(new ScoreView(this, score));
+        RelativeLayout scoreLayout = new RelativeLayout(this);
 
-        //TextView scoreText = (TextView) findViewById(R.id.score);
-        //scoreText.setText(score);
+        ScoreView scoreView = new ScoreView(this, score);
+        scoreView.setId(ViewIdGenerator.generateViewId());
+
+        RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 250);
+        relativeParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        relativeParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+        ImageButton mapButton = new ImageButton(this);
+        mapButton.setImageResource(R.drawable.button_location);
+
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ScoreActivity.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mapButton.setLayoutParams(relativeParams);
+
+        scoreLayout.addView(scoreView);
+        scoreLayout.addView(mapButton, relativeParams);
+
+        setContentView(scoreLayout);
     }
 }

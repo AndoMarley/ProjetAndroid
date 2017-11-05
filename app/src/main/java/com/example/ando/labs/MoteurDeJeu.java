@@ -53,9 +53,6 @@ public class MoteurDeJeu {
                                     stop();
                                 }
 
-//                                xpos = mBoule.getX();
-//                                ypos = mBoule.getY();
-
                                 break;
 
                             case TARGET:
