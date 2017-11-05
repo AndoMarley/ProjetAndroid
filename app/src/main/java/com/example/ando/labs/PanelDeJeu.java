@@ -6,8 +6,6 @@ package com.example.ando.labs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -24,14 +22,14 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
     SurfaceHolder mSurfaceHolder;
     DrawingThread mThread;
     Paint mPaint;
-    Bitmap bcg;
-    Bitmap trx;
+    //Bitmap bcg;
+    //Bitmap trx;
     private List<Bloc> mBlocks = null;
 
     public PanelDeJeu(Context pContext) {
         super(pContext);
-        bcg = BitmapFactory.decodeResource(getResources(), R.drawable.ga);
-        trx = BitmapFactory.decodeResource(getResources(), R.drawable.trou);
+        //bcg = BitmapFactory.decodeResource(getResources(), R.drawable.ga);
+        //trx = BitmapFactory.decodeResource(getResources(), R.drawable.trou);
         mSurfaceHolder = getHolder();
         mSurfaceHolder.addCallback(this);
         mThread = new DrawingThread();
@@ -63,10 +61,11 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
     protected void onDraw(Canvas pCanvas) {
         // Dessiner le fond de l'écran en premier
         //pCanvas.drawColor(Color.WHITE);
-        pCanvas.drawBitmap(bcg, 0, 0, null);
+        //pCanvas.drawBitmap(bcg, 0, 0, null);
 
         Paint paint = new Paint();
         pCanvas.drawPaint(paint);
+
         paint.setColor(Color.WHITE);
         paint.setTextSize(56);
         pCanvas.drawText("Score : " + mBoule.getScore(), 50, 45, paint);
@@ -77,13 +76,13 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
             for (Bloc b : mBlocks) {
                 switch (b.getType()) {
                     case TARGET:
-                        mPaint.setColor(Color.argb(100, 161, 228, 221));
+                        mPaint.setColor(Color.rgb(140, 21, 249));
 //                        Canvas c = getHolder().lockCanvas();
 //                        c.drawBitmap(trx,0,0,null);
 //                        getHolder().unlockCanvasAndPost(c);
                         break;
                     case TROU:
-                        mPaint.setColor(Color.RED);
+                        mPaint.setColor(Color.rgb(255, 0, 133));
                         break;
                 }
                 pCanvas.drawRect(b.getRectangle(), mPaint);

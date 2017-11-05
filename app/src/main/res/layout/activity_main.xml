@@ -3,33 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@drawable/screen"
     tools:context="com.example.ando.labs.MainActivity">
 
     <RelativeLayout
         android:layout_width="395dp"
         android:layout_height="643dp"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="4dp">
+        tools:layout_editor_absoluteX="4dp"
+        tools:layout_editor_absoluteY="-60dp">
 
         <Button
             android:id="@+id/play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:alpha="0.50"
+            android:layout_marginLeft="135dp"
+            android:layout_marginStart="135dp"
+            android:alpha="0.70"
             android:text="Jouer" />
 
         <Button
             android:id="@+id/stat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/play"
-            android:layout_alignRight="@+id/play"
+            android:layout_alignLeft="@+id/play"
+            android:layout_alignStart="@+id/play"
             android:layout_below="@+id/play"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="22dp"
             android:alpha="0.50"
             android:text="Score" />
 
@@ -40,7 +43,7 @@
             android:layout_alignLeft="@+id/stat"
             android:layout_alignStart="@+id/stat"
             android:layout_below="@+id/stat"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="19dp"
             android:alpha="0.50"
             android:text="Sortir" />
     </RelativeLayout>

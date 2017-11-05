@@ -8,7 +8,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -101,11 +103,22 @@ public class MyActivity extends Activity {
         mEngine.stop();
     }
 
-//    public void coalTarget(){
-//        mEngine.stop();
-//        mEngine.resetTarget();
-//        mEngine.resume();
-//    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveScore();
+    }
+
+    public MoteurDeJeu getEngine() {
+        return mEngine;
+    }
+
+    public void saveScore() {
+        SharedPreferences settings = getSharedPreferences("SCORE", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("maxScore", "" + mEngine.getBoule().getScore());
+        editor.commit();
+    }
 
     private final class CancelOnClickListener implements
             DialogInterface.OnClickListener {
@@ -123,9 +136,5 @@ public class MyActivity extends Activity {
             pause = false;
             mEngine.resume();
         }
-    }
-
-    public MoteurDeJeu getEngine() {
-        return mEngine;
     }
 }
