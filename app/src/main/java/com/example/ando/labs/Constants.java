@@ -7,4 +7,5 @@ package com.example.ando.labs;
 public class Constants {
     public static int BOARD_WIDTH = 29;
     public static int BOARD_HEIGHT = 15;
+    public static int INITIAL_NUM_OBSTACLES = 2;
 }

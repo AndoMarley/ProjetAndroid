@@ -28,6 +28,9 @@ public class Bloc {
 
     enum Type {TROU, TARGET}
 
-
+    public void reposit(int x, int y) {
+        ipX = x;
+        ipY = y;
+        this.mRectangle = new RectF(x * COTE, y * COTE, (x + 1) * COTE, (y + 1) * COTE);
+    }
 }
-

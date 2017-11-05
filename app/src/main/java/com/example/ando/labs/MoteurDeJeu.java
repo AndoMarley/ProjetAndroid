@@ -18,17 +18,10 @@ import java.util.List;
 
 public class MoteurDeJeu {
 
-    public double xpos;
-    public double ypos;
-    public Bloc target;
-    public Bloc tn;
-    public int x;
-    public int y;
-    public int score = 0;
-    private double vie = 5;
     private Boule mBoule = null;
-    // les blocks
     private List<Bloc> mBlocks = null;
+    private List<Bloc> mObstacles = null;
+    private Bloc mTarget = null;
     private MyActivity mActivity = null;
     private SensorManager mManager = null;
     private Sensor mAccelerometre = null;
@@ -51,11 +44,13 @@ public class MoteurDeJeu {
                         // On agit différement en fonction du type de bloc
                         switch (block.getType()) {
                             case TROU:
-                                if (mBoule.getLife() > 0)
+                                mBoule.reposit();
+                                if (mBoule.getLife() > 0) {
                                     mBoule.decrementLife();
+                                }
                                 if (mBoule.getLife() == 0) {
                                     mActivity.showDialog(MyActivity.DEFEAT_DIALOG);
-                                    mActivity.coal();
+                                    stop();
                                 }
 
 //                                xpos = mBoule.getX();
@@ -69,9 +64,9 @@ public class MoteurDeJeu {
 //                                mBlocks.remove(t1);
 //                                t1 = new Bloc(Type.TARGET,15,10);
 //                                mBlocks.add(tn);
-                                mActivity.coal();
-
-
+                                //mActivity.coal();
+                                repositTarget();
+                                addNewObstacle();
                                 break;
                         }
                         break;
@@ -90,17 +85,10 @@ public class MoteurDeJeu {
         mActivity = pView;
         mManager = (SensorManager) mActivity.getBaseContext().getSystemService(Service.SENSOR_SERVICE);
         mAccelerometre = mManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        initBoard();
     }
 
-    public Bloc getBloc() {
-        return (Bloc) mBlocks;
-    }
-
-    public void setBloc(Bloc pBloc) {
-        this.mBlocks = (List<Bloc>) pBloc;
-    }
     public Boule getBoule() {
-
         return mBoule;
     }
 
@@ -115,9 +103,11 @@ public class MoteurDeJeu {
 
     }
 
-    public void breset() {
-        //mtarget.reposit
-
+    public void resetTarget(){
+        mBoule.reposit();
+        reinitObstacles();
+        mBoule.resetLife();
+        mBoule.resetScore();
     }
 
     // Arrête le capteur
@@ -131,45 +121,63 @@ public class MoteurDeJeu {
     }
 
     // Construit les pieges
-    public List<Bloc> pieges() {
-        mBlocks = new ArrayList<Bloc>();
-
-        // xmax== 15 ymax == 8
-        x = 1 + (int) (Math.random() * 29);
-        y = 1 + (int) (Math.random() * 15);
-
-        mBlocks.add(new Bloc(Type.TROU, x, y));
-        x = 1 + (int) (Math.random() * 29);
-        y = 1 + (int) (Math.random() * 15);
-        mBlocks.add(new Bloc(Type.TROU, x, y));
-        x = 1 + (int) (Math.random() * 29);
-        y = 1 + (int) (Math.random() * 15);
-        mBlocks.add(new Bloc(Type.TROU, x, y));
-        x = 1 + (int) (Math.random() * 29);
-        y = 1 + (int) (Math.random() * 15);
-        mBlocks.add(new Bloc(Type.TROU, x, y));
-        x = 1 + (int) (Math.random() * 29);
-        y = 1 + (int) (Math.random() * 15);
-        mBlocks.add(new Bloc(Type.TROU, x, y));
-        x = 1 + (int) (Math.random() * 29);
-        y = 1 + (int) (Math.random() * 15);
-        mBlocks.add(new Bloc(Type.TROU, x, y));
-        x = 1 + (int) (Math.random() * 29);
-        y = 1 + (int) (Math.random() * 15);
-        mBlocks.add(new Bloc(Type.TROU, x, y));
-        x = 1 + (int) (Math.random() * 29);
-        y = 1 + (int) (Math.random() * 15);
-        mBlocks.add(new Bloc(Type.TROU, x, y));
-        x = 1 + (int) (Math.random() * 29);
-        y = 1 + (int) (Math.random() * 15);
-        mBlocks.add(new Bloc(Type.TROU, x, y));
-
-        x = 1 + (int) (Math.random() * 29);
-        y = 1 + (int) (Math.random() * 15);
-        target = new Bloc(Type.TARGET, x, y);
-        mBlocks.add(target);
-
+    public List<Bloc> getBoardElems() {
         return mBlocks;
+    }
+
+    public List<Bloc> initObstacles (int n) {
+        mObstacles = new ArrayList<Bloc>();
+        for (int i = 0; i < n; i++) {
+            int x = 1 + (int) (Math.random() * Constants.BOARD_WIDTH);
+            int y = 1 + (int) (Math.random() * Constants.BOARD_HEIGHT);
+            mObstacles.add(new Bloc(Type.TROU, x, y));
+        }
+        return mObstacles;
+    }
+
+    public void reinitObstacles () {
+        mBlocks.clear();
+        mObstacles.clear();
+        for (int i = 0; i < Constants.INITIAL_NUM_OBSTACLES; i++) {
+            int x = 1 + (int) (Math.random() * Constants.BOARD_WIDTH);
+            int y = 1 + (int) (Math.random() * Constants.BOARD_HEIGHT);
+            mObstacles.add(new Bloc(Type.TROU, x, y));
+        }
+        mBlocks.add(mTarget);
+        mBlocks.addAll(mObstacles);
+    }
+
+    public void repositObstacles() {
+        for (Bloc obstacle : mObstacles) {
+            int x = 1 + (int) (Math.random() * Constants.BOARD_WIDTH);
+            int y = 1 + (int) (Math.random() * Constants.BOARD_HEIGHT);
+            obstacle.reposit(x, y);
+        }
+    }
+
+    private void repositTarget() {
+        int x = 1 + (int) (Math.random() * Constants.BOARD_WIDTH);
+        int y = 1 + (int) (Math.random() * Constants.BOARD_HEIGHT);
+        mTarget.reposit(x, y);
+    }
+
+    private void addNewObstacle() {
+        int x = 1 + (int) (Math.random() * Constants.BOARD_WIDTH);
+        int y = 1 + (int) (Math.random() * Constants.BOARD_HEIGHT);
+        Bloc obstacle = new Bloc(Type.TROU, x, y);
+        mBlocks.add(obstacle);
+        mObstacles.add(obstacle);
+    }
+
+    private void initBoard() {
+        mBlocks = new ArrayList<Bloc>();
+        mBlocks.addAll(initObstacles(Constants.INITIAL_NUM_OBSTACLES));
+
+        int x = 1 + (int) (Math.random() * 20);
+        int y = 1 + (int) (Math.random() * 15);
+        mTarget = new Bloc(Type.TARGET, x, y);
+
+        mBlocks.add(mTarget);
     }
 
 }

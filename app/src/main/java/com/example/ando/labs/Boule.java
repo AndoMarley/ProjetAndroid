@@ -9,7 +9,7 @@ import android.graphics.RectF;
 
 public class Boule {
     // Rayon de la boule
-    public static final int RAYON = 50; // rayon boule
+    public static final int RAYON = 25; // rayon boule
     public static final int Cote = 30; // Coté trou
     // Vitesse maximale autorisée pour la boule
     private static final float MAX_SPEED = 20.0f;
@@ -20,7 +20,7 @@ public class Boule {
     public int xB;
     public int yB;
     // Couleur de la boule
-    private int mCouleur = Color.BLUE;
+    private int mCouleur = Color.rgb(234,221,43);
     // Le rectangle qui correspond à la position de départ de la boule
     private RectF mInitialRectangle = null;
     // Le rectangle de collision
@@ -149,10 +149,10 @@ public class Boule {
         mSpeedX = 0;
         mSpeedY = 0;
 
-        int xnx = (int) (Math.random() * 6);
+        int xnx = 20+(int) (Math.random() * 6);
         int yny = (int) (Math.random() * 6);
-        this.mX = xnx;//mWidth / 2;//mInitialRectangle.left + RAYON;
-        this.mY = yny; //mHeight / 2;//mInitialRectangle.top + RAYON;
+        this.mX = 20;//xnx;//mWidth / 2;//mInitialRectangle.left + RAYON;
+        this.mY = 12;//7yny; //mHeight / 2;//mInitialRectangle.top + RAYON;
     }
 
     public void incrementScore() {
@@ -167,7 +167,14 @@ public class Boule {
         return life;
     }
 
+    public void resetLife() {
+        life = 3;
+    }
     public int getScore() {
         return score;
+    }
+
+    public void resetScore(){
+        score = 0;
     }
 }

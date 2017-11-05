@@ -21,10 +21,11 @@ public class MyActivity extends Activity {
     // Identifiant de la boîte de dialogue de défaite
     public static final int DEFEAT_DIALOG = 1;
     // Le moteur physique du jeu
-    public MoteurDeJeu mEngine = null;
-    public MoteurDeJeu bEngine = null;
+    private MoteurDeJeu mEngine = null;
     // Le moteur graphique du jeu
     private PanelDeJeu mView = null;
+
+    private boolean pause = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,14 +43,15 @@ public class MyActivity extends Activity {
         mView.setBoule(b);
         mEngine.setBoule(b);
 
-        List<Bloc> mList = mEngine.pieges();
+        List<Bloc> mList = mEngine.getBoardElems();
         mView.setBlocks(mList);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mEngine.resume();
+        if (!pause)
+            mEngine.resume();
     }
 
     @SuppressLint("MissingSuperCall")
@@ -57,6 +59,16 @@ public class MyActivity extends Activity {
     protected void onPause() {
         super.onStop();
         mEngine.stop();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        //savedInstanceState.putInt(STATE_SCORE, mCurrentScore);
+        //savedInstanceState.putInt(STATE_LEVEL, mCurrentLevel);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
@@ -78,6 +90,7 @@ public class MyActivity extends Activity {
                 builder.setTitle("La loose !");
                 builder.setPositiveButton("Recommencer", new OkOnClickListener());
                 builder.setNegativeButton("Quitter", new CancelOnClickListener());
+                pause = true;
         }
         return builder.create();
     }
@@ -88,11 +101,11 @@ public class MyActivity extends Activity {
         mEngine.stop();
     }
 
-    public void coal() {
-        mEngine.stop();
-        mEngine.reset();
-        mEngine.resume();
-    }
+//    public void coalTarget(){
+//        mEngine.stop();
+//        mEngine.resetTarget();
+//        mEngine.resume();
+//    }
 
     private final class CancelOnClickListener implements
             DialogInterface.OnClickListener {
@@ -106,8 +119,13 @@ public class MyActivity extends Activity {
             DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
             mEngine.stop();
-            mEngine.reset();
+            mEngine.resetTarget();
+            pause = false;
             mEngine.resume();
         }
+    }
+
+    public MoteurDeJeu getEngine() {
+        return mEngine;
     }
 }
