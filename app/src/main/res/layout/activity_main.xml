@@ -19,11 +19,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="144dp"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="144dp"
             android:layout_marginStart="144dp"
-            android:alpha="0.70"
+            android:layout_marginTop="144dp"
+            android:alpha="0.40"
             android:text="Jouer" />
 
         <Button
@@ -34,7 +34,7 @@
             android:layout_alignStart="@+id/play"
             android:layout_below="@+id/play"
             android:layout_marginTop="22dp"
-            android:alpha="0.50"
+            android:alpha="0.40"
             android:text="Score" />
 
         <Button
@@ -45,7 +45,7 @@
             android:layout_alignStart="@+id/stat"
             android:layout_below="@+id/stat"
             android:layout_marginTop="19dp"
-            android:alpha="0.50"
+            android:alpha="0.40"
             android:text="Sortir" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -15,6 +15,7 @@ public class Explosion {
     private int row;
     private Animation animation = new Animation();
     private Bitmap spritesheet;
+    private Sound soundPlayer = new Sound();
 
     public Explosion(Bitmap res, int _x, int _y, int w, int h, int numFrames) {
         x = _x;
@@ -35,6 +36,7 @@ public class Explosion {
 
         animation.setFrames(image);
         animation.setDelay(10);
+        soundPlayer.playFreq(262);
     }
 
     public void draw(Canvas canvas) {

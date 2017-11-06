@@ -24,16 +24,12 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
     SurfaceHolder mSurfaceHolder;
     DrawingThread mThread;
     Paint mPaint;
-    //Bitmap bcg;
-    //Bitmap trx;
     private List<Bloc> mBlocks = null;
 
     private Explosion explosion;
 
     public PanelDeJeu(Context pContext) {
         super(pContext);
-        //bcg = BitmapFactory.decodeResource(getResources(), R.drawable.ga);
-        //trx = BitmapFactory.decodeResource(getResources(), R.drawable.trou);
         mSurfaceHolder = getHolder();
         mSurfaceHolder.addCallback(this);
         mThread = new DrawingThread();
@@ -104,13 +100,13 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
             for (Bloc b : mBlocks) {
                 switch (b.getType()) {
                     case TARGET:
-                        mPaint.setColor(Color.rgb(147, 6, 35));
-//                        Canvas c = getHolder().lockCanvas();
-//                        c.drawBitmap(trx,0,0,null);
-//                        getHolder().unlockCanvasAndPost(c);
+                        // mPaint.setColor(Color.rgb(147, 6, 35));
+                        mPaint.setColor(Color.rgb(140, 21, 249));
+//
                         break;
                     case TROU:
-                        mPaint.setColor(Color.rgb(151, 29, 114));
+                        // mPaint.setColor(Color.rgb(151, 29, 114));
+                        mPaint.setColor(Color.rgb(255, 0, 133));
                         break;
                 }
                 pCanvas.drawRect(b.getRectangle(), mPaint);
@@ -158,6 +154,14 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
+    public void startExplosion(int x, int y) {
+        explosion =
+                new Explosion(BitmapFactory.decodeResource(getContext().getResources(),
+                        R.drawable.explosion), x, y,
+                        32, 24, 20);
+        explosion.update();
+    }
+
     private class DrawingThread extends Thread {
         boolean keepDrawing = true;
 
@@ -185,13 +189,5 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
-    }
-
-    public void startExplosion(int x, int y) {
-        explosion =
-                new Explosion(BitmapFactory.decodeResource(getContext().getResources(),
-                        R.drawable.explosion), x, y,
-                        32, 24, 20);
-        explosion.update();
     }
 }

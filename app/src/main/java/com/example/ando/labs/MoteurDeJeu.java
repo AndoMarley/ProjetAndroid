@@ -5,7 +5,6 @@ package com.example.ando.labs;
  */
 
 import android.app.Service;
-import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -26,6 +25,7 @@ public class MoteurDeJeu {
     private MyActivity mActivity = null;
     private SensorManager mManager = null;
     private Sensor mAccelerometre = null;
+    private Sound soundPlayer = new Sound();
 
     SensorEventListener mSensorEventListener = new SensorEventListener() {
 
@@ -46,9 +46,11 @@ public class MoteurDeJeu {
                         // On agit différement en fonction du type de bloc
                         switch (block.getType()) {
                             case TROU:
+                                mActivity.getView().startExplosion((int) mBoule.getX(), (int) mBoule.getY());
                                 mBoule.reposit();
                                 if (mBoule.getLife() > 0) {
                                     mBoule.decrementLife();
+                                    soundPlayer.playFreq(330);
                                 }
                                 if (mBoule.getLife() == 0) {
                                     mActivity.showDialog(MyActivity.DEFEAT_DIALOG);
@@ -59,13 +61,6 @@ public class MoteurDeJeu {
 
                             case TARGET:
                                 mBoule.incrementScore();
-                                // mActivity.showDialog(MyActivity.VICTORY_DIALOG);
-//                                mBlocks.remove(t1);
-//                                t1 = new Bloc(Type.TARGET,15,10);
-//                                mBlocks.add(tn);
-                                //mActivity.coal();
-                                mActivity.getView().startExplosion((int)mBoule.getX(),
-                                                                    (int)mBoule.getY());
                                 repositTarget();
                                 addNewObstacle();
                                 break;
