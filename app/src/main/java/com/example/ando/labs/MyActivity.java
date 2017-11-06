@@ -205,4 +205,8 @@ public class MyActivity extends Activity {
         mPlayer = MediaPlayer.create(this, resId);
         mPlayer.start();
     }
+
+    public PanelDeJeu getView() {
+        return mView;
+    }
 }

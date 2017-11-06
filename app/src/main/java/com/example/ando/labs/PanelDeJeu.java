@@ -6,6 +6,7 @@ package com.example.ando.labs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,6 +27,8 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
     //Bitmap bcg;
     //Bitmap trx;
     private List<Bloc> mBlocks = null;
+
+    private Explosion explosion;
 
     public PanelDeJeu(Context pContext) {
         super(pContext);
@@ -119,6 +122,10 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
             mPaint.setColor(mBoule.getCouleur());
             pCanvas.drawCircle(mBoule.getX(), mBoule.getY(), Boule.RAYON, mPaint);
         }
+        if (explosion != null) {
+            explosion.draw(pCanvas);
+            explosion.update();
+        }
     }
 
     @Override
@@ -178,5 +185,13 @@ public class PanelDeJeu extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
+    }
+
+    public void startExplosion(int x, int y) {
+        explosion =
+                new Explosion(BitmapFactory.decodeResource(getContext().getResources(),
+                        R.drawable.explosion), x, y,
+                        32, 24, 20);
+        explosion.update();
     }
 }

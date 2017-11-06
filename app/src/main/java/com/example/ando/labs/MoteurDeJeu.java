@@ -5,6 +5,7 @@ package com.example.ando.labs;
  */
 
 import android.app.Service;
+import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -25,6 +26,7 @@ public class MoteurDeJeu {
     private MyActivity mActivity = null;
     private SensorManager mManager = null;
     private Sensor mAccelerometre = null;
+
     SensorEventListener mSensorEventListener = new SensorEventListener() {
 
         @Override
@@ -62,6 +64,8 @@ public class MoteurDeJeu {
 //                                t1 = new Bloc(Type.TARGET,15,10);
 //                                mBlocks.add(tn);
                                 //mActivity.coal();
+                                mActivity.getView().startExplosion((int)mBoule.getX(),
+                                                                    (int)mBoule.getY());
                                 repositTarget();
                                 addNewObstacle();
                                 break;
